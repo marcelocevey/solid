@@ -1,0 +1,1777 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="origin">
+    <title>Avaliação Prática de CAD e Projeto Mecânico | SENAI SC 2026</title>
+    <style>
+        :root {
+            --senai-blue: #0047B6;
+            --senai-dark-blue: #002B70;
+            --senai-orange: #FF5000;
+            --senai-orange-hover: #D94300;
+            --senai-light: #F4F6F9;
+            --senai-border: #D9E2EC;
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+            --white: #FFFFFF;
+            --success: #10B981;
+            --warning: #F59E0B;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--senai-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* BARRA SUPERIOR IDENTIDADE VISUAL SENAI 2026 */
+        .senai-stripe-top {
+            height: 8px;
+            background: linear-gradient(90deg, var(--senai-orange) 0%, var(--senai-orange) 28%, var(--white) 28%, var(--white) 32%, var(--senai-blue) 32%, var(--senai-blue) 100%);
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--senai-dark-blue) 0%, var(--senai-blue) 100%);
+            color: var(--white);
+            padding: 1.4rem 2rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 43, 112, 0.25);
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -60px;
+            width: 240px;
+            height: 220%;
+            background: linear-gradient(180deg, var(--senai-orange) 0%, var(--senai-orange) 38%, var(--white) 38%, var(--white) 46%, rgba(255,255,255,0.12) 46%);
+            transform: rotate(25deg);
+            pointer-events: none;
+        }
+
+        .header-container {
+            max-width: 1260px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .brand-group {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .senai-logo-box {
+            background: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .senai-logo-text {
+            font-size: 1.9rem;
+            font-weight: 900;
+            font-style: italic;
+            letter-spacing: -1px;
+            color: var(--senai-blue);
+            line-height: 1;
+        }
+
+        .senai-logo-text span {
+            color: var(--senai-orange);
+        }
+
+        .fiesc-tag {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--senai-dark-blue);
+            border-left: 2px solid var(--senai-border);
+            padding-left: 0.65rem;
+            text-transform: uppercase;
+            line-height: 1.2;
+        }
+
+        .header-titles h1 {
+            font-size: 1.35rem;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .header-titles p {
+            font-size: 0.88rem;
+            opacity: 0.92;
+        }
+
+        .student-status-bar {
+            display: none;
+            background: rgba(0, 25, 65, 0.6);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 0.55rem 1rem;
+            border-radius: 8px;
+            font-size: 0.82rem;
+        }
+
+        .student-status-bar strong {
+            color: #FFD166;
+        }
+
+        main {
+            max-width: 1260px;
+            width: 100%;
+            margin: 1.8rem auto;
+            padding: 0 1.5rem;
+            flex: 1;
+        }
+
+        /* TELA 1: LOGIN DO ALUNO */
+        #login-screen {
+            max-width: 650px;
+            margin: 1.5rem auto;
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 71, 182, 0.1);
+            overflow: hidden;
+            border-top: 6px solid var(--senai-orange);
+        }
+
+        .card-header {
+            background: var(--senai-blue);
+            color: var(--white);
+            padding: 1.5rem 2rem;
+        }
+
+        .card-header h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--senai-dark-blue);
+            margin-bottom: 0.4rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid var(--senai-border);
+            border-radius: 8px;
+            font-size: 0.98rem;
+            transition: all 0.2s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--senai-blue);
+            box-shadow: 0 0 0 3px rgba(0, 71, 182, 0.15);
+        }
+
+        .btn-primary {
+            width: 100%;
+            background: var(--senai-orange);
+            color: var(--white);
+            font-weight: 800;
+            font-size: 1rem;
+            padding: 0.95rem 1.4rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: background 0.2s ease, transform 0.1s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover {
+            background: var(--senai-orange-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-blue {
+            background: var(--senai-blue);
+        }
+
+        .btn-blue:hover {
+            background: var(--senai-dark-blue);
+        }
+
+        /* TELA 2: AMBIENTE DA PROVA */
+        #exam-screen {
+            display: none;
+        }
+
+        .section-card {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 4px 18px rgba(0, 43, 112, 0.07);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            border-left: 6px solid var(--senai-blue);
+        }
+
+        .section-card.orange-accent {
+            border-left-color: var(--senai-orange);
+        }
+
+        .section-title-bar {
+            padding: 1.15rem 1.75rem;
+            background: #F8FAFC;
+            border-bottom: 1px solid var(--senai-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .section-title-bar h2 {
+            color: var(--senai-dark-blue);
+            font-size: 1.2rem;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .badge {
+            background: var(--senai-blue);
+            color: var(--white);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            text-transform: uppercase;
+        }
+
+        .badge.orange {
+            background: var(--senai-orange);
+        }
+
+        .section-content {
+            padding: 1.75rem;
+        }
+
+        /* TAXONOMIA DE BLOOM */
+        .bloom-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 1rem;
+            margin-top: 1.1rem;
+        }
+
+        .bloom-card {
+            background: #F8FAFC;
+            border: 1px solid var(--senai-border);
+            border-top: 4px solid var(--senai-blue);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .bloom-card:nth-child(even) {
+            border-top-color: var(--senai-orange);
+        }
+
+        .bloom-level {
+            font-size: 0.74rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--senai-orange);
+        }
+
+        .bloom-verbs {
+            font-weight: 800;
+            color: var(--senai-dark-blue);
+            font-size: 0.95rem;
+            margin: 0.25rem 0 0.4rem;
+        }
+
+        .bloom-desc {
+            font-size: 0.86rem;
+        }
+
+        /* GOOGLE DRIVE BOX */
+        .drive-callout {
+            background: linear-gradient(135deg, #EEF4FF 0%, #E0EAFF 100%);
+            border: 2px solid var(--senai-blue);
+            border-radius: 10px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .drive-instructions {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .drive-instructions h3 {
+            color: var(--senai-dark-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .drive-instructions ol {
+            padding-left: 1.25rem;
+            font-size: 0.92rem;
+        }
+
+        /* PAINEL DOS DESENHOS TÉCNICOS */
+        .drawings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+            gap: 1.75rem;
+        }
+
+        @media (max-width: 768px) {
+            .drawings-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .drawing-box {
+            border: 2px solid var(--senai-border);
+            border-radius: 10px;
+            overflow: hidden;
+            background: var(--white);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .drawing-header {
+            background: var(--senai-dark-blue);
+            color: var(--white);
+            padding: 0.85rem 1.2rem;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.92rem;
+        }
+
+        .drawing-viewport {
+            padding: 1rem;
+            background: #EAF2FA;
+            text-align: center;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 410px;
+            position: relative;
+        }
+
+        .drawing-viewport img {
+            max-width: 100%;
+            max-height: 410px;
+            width: auto;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 3px 12px rgba(0, 43, 112, 0.12);
+            border: 1px solid #CBD5E1;
+            cursor: zoom-in;
+            background: #EEF5FC;
+        }
+
+        .drawing-toolbar {
+            display: flex;
+            gap: 0.6rem;
+            margin-top: 0.65rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn-mini {
+            background: var(--white);
+            color: var(--senai-dark-blue);
+            border: 1px solid var(--senai-border);
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.76rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-mini:hover {
+            background: var(--senai-blue);
+            color: var(--white);
+            border-color: var(--senai-blue);
+        }
+
+        .drawing-specs {
+            padding: 1rem 1.25rem;
+            background: #F8FAFC;
+            border-top: 1px solid var(--senai-border);
+            font-size: 0.88rem;
+        }
+
+        .drawing-specs ul {
+            padding-left: 1.2rem;
+            margin-top: 0.4rem;
+        }
+
+        /* TABELA DE 10 CRITÉRIOS */
+        .criteria-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .criteria-table th {
+            background: var(--senai-dark-blue);
+            color: var(--white);
+            text-align: left;
+            padding: 0.85rem 1rem;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+        }
+
+        .criteria-table td {
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid var(--senai-border);
+        }
+
+        .criteria-table tr:nth-child(even) {
+            background: #F8FAFC;
+        }
+
+        .cat-pill {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.73rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .cat-model { background: #DBEAFE; color: #1E40AF; }
+        .cat-cota { background: #FFEDD5; color: #C2410C; }
+        .cat-mont { background: #D1FAE5; color: #065F46; }
+
+        /* UPLOAD CARDS */
+        .upload-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .upload-card {
+            border: 2px dashed var(--senai-blue);
+            background: #F8FAFC;
+            border-radius: 10px;
+            padding: 1.35rem 1.1rem;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .upload-card.file-selected {
+            border-style: solid;
+            border-color: var(--success);
+            background: #ECFDF5;
+        }
+
+        .upload-icon {
+            font-size: 2rem;
+            margin-bottom: 0.4rem;
+            display: block;
+        }
+
+        .upload-card h4 {
+            color: var(--senai-dark-blue);
+            margin-bottom: 0.3rem;
+            font-size: 0.96rem;
+        }
+
+        .upload-card p {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-bottom: 0.9rem;
+        }
+
+        .file-status {
+            margin-top: 0.55rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--success);
+            word-break: break-all;
+        }
+
+        .email-info-banner {
+            background: #FFF7ED;
+            border-left: 4px solid var(--senai-orange);
+            padding: 1rem 1.25rem;
+            border-radius: 6px;
+            margin-bottom: 1.4rem;
+            font-size: 0.9rem;
+        }
+
+        /* CAIXA DE RESULTADO DE ENVIO */
+        #submission-result {
+            display: none;
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 2px solid var(--success);
+            background: #ECFDF5;
+        }
+
+        .fallback-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .fallback-actions a,
+        .fallback-actions button {
+            flex: 1;
+            min-width: 220px;
+            padding: 0.85rem 1rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+        }
+
+        /* MODAL ZOOM */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 20, 50, 0.88);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .modal-box-zoom {
+            background: var(--white);
+            padding: 1rem;
+            border-radius: 10px;
+            max-width: 95vw;
+            max-height: 92vh;
+            overflow: auto;
+            text-align: center;
+        }
+
+        .modal-box-zoom img {
+            max-width: 90vw;
+            max-height: 85vh;
+            border-radius: 6px;
+        }
+
+        .close-modal-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            color: var(--white);
+            font-size: 2.2rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        footer {
+            background: var(--senai-dark-blue);
+            color: var(--white);
+            padding: 1.8rem 1.5rem;
+            margin-top: 3rem;
+            border-top: 5px solid var(--senai-orange);
+        }
+
+        .footer-container {
+            max-width: 1260px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            font-size: 0.84rem;
+        }
+
+        .author-signature {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.65rem 1.2rem;
+            border-radius: 6px;
+            border-left: 3px solid var(--senai-orange);
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="senai-stripe-top"></div>
+
+    <!-- CABEÇALHO SENAI / FIESC 2026 -->
+    <header>
+        <div class="header-container">
+            <div class="brand-group">
+                <div class="senai-logo-box">
+                    <div class="senai-logo-text">SENA<span>I</span></div>
+                    <div class="fiesc-tag">FIESC<br>Santa Catarina</div>
+                </div>
+                <div class="header-titles">
+                    <h1>Avaliação Prática de Desenho e Modelamento Mecânico</h1>
+                    <p>Conjunto de Montar Anéis — Modelagem 3D da Bucha, Detalhamento A4 e Montagem</p>
+                </div>
+            </div>
+
+            <div class="student-status-bar" id="student-badge">
+                <div>👤 Aluno(a): <strong id="badge-nome">-</strong> | Turma: <strong id="badge-turma">-</strong></div>
+                <div>📧 E-mail do Aluno: <strong id="badge-email">-</strong> | ⏱️ Tempo: <strong id="exam-timer">00:00:00</strong></div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- TELA 1: IDENTIFICAÇÃO DO ALUNO -->
+        <section id="login-screen">
+            <div class="card-header">
+                <h2>Identificação do Estudante</h2>
+                <p>Preencha seus dados abaixo para iniciar a avaliação e visualizar os desenhos técnicos.</p>
+            </div>
+            <div class="card-body">
+                <form id="start-exam-form" onsubmit="iniciarProva(event)">
+                    <div class="form-group">
+                        <label for="aluno_nome">Nome Completo do Aluno *</label>
+                        <input type="text" id="aluno_nome" class="form-control" placeholder="Digite seu nome completo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="aluno_turma">Turma / Curso *</label>
+                        <input type="text" id="aluno_turma" class="form-control" placeholder="Ex.: TMEC-2026 / Mecânica" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="aluno_email">E-mail do Aluno (para receber cópia da avaliação) *</label>
+                        <input type="email" id="aluno_email" class="form-control" placeholder="seu.email@aluno.sc.senai.br" required>
+                    </div>
+                    <button type="submit" class="btn-primary">
+                        <span>🚀 INICIAR AVALIAÇÃO PRÁTICA</span>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- TELA 2: CONTEÚDO COMPLETO DA PROVA -->
+        <div id="exam-screen">
+
+            <!-- 1. CONTEXTUALIZAÇÃO COM VERBOS DA TAXONOMIA DE BLOOM -->
+            <section class="section-card">
+                <div class="section-title-bar">
+                    <h2>📌 1. Contextualização Técnica (Taxonomia de Bloom)</h2>
+                    <span class="badge">Diretrizes Cognitivas</span>
+                </div>
+                <div class="section-content">
+                    <p>
+                        No departamento de projetos mecânicos de uma indústria metalmecânica, você recebeu a solicitação técnica para concluir o projeto executivo do <strong>Conjunto de Montar Anéis</strong>. Para cumprir o desafio proposto, execute as etapas abaixo orientadas pelos verbos da <strong>Taxonomia de Bloom</strong>:
+                    </p>
+                    <div class="bloom-grid">
+                        <div class="bloom-card">
+                            <div class="bloom-level">1. Compreender e Interpretar</div>
+                            <div class="bloom-verbs">Interpretar • Identificar</div>
+                            <div class="bloom-desc">
+                                <strong>Interpretar</strong> a vista em corte da <strong>Bucha (Peça 2)</strong>, <strong>identificando</strong> os diâmetros externos (Ø24 mm e Ø18 mm), alturas (16 mm, 12 mm e 4 mm), o furo passante em polegada (Ø 3/8") e as indicações de acabamento superficial (∇∇).
+                            </div>
+                        </div>
+                        <div class="bloom-card">
+                            <div class="bloom-level">2. Aplicar e Executar</div>
+                            <div class="bloom-verbs">Converter • Modelar</div>
+                            <div class="bloom-desc">
+                                <strong>Converter</strong> a medida do furo central de polegada fracionária para milímetros (Ø 3/8" = 9,525 mm) e <strong>modelar</strong> a geometria 3D da Bucha no software CAD.
+                            </div>
+                        </div>
+                        <div class="bloom-card">
+                            <div class="bloom-level">3. Analisar e Relacionar</div>
+                            <div class="bloom-verbs">Analisar • Correlacionar</div>
+                            <div class="bloom-desc">
+                                <strong>Analisar</strong> as peças disponibilizadas na pasta do Google Drive e <strong>correlacionar</strong> os ajustes e posicionamentos entre o suporte base, bucha superior, eixo com elementos soldados, pino guia, arruela e porca.
+                            </div>
+                        </div>
+                        <div class="bloom-card">
+                            <div class="bloom-level">4. Avaliar e Criar</div>
+                            <div class="bloom-verbs">Elaborar • Integrar • Validar</div>
+                            <div class="bloom-desc">
+                                <strong>Elaborar</strong> o detalhamento técnico da Bucha em <strong>folha A4</strong> padronizada (ABNT), <strong>integrar</strong> todos os componentes na montagem final do conjunto e <strong>validar</strong> a ausência de interferências.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. BOTÃO E INSTRUÇÕES DO GOOGLE DRIVE -->
+            <section class="section-card orange-accent">
+                <div class="section-title-bar">
+                    <h2>📂 2. Acesso aos Arquivos da Montagem (Google Drive)</h2>
+                    <span class="badge orange">Download das Peças</span>
+                </div>
+                <div class="section-content">
+                    <div class="drive-callout">
+                        <div class="drive-instructions">
+                            <h3>Instruções para acessar a pasta e baixar os arquivos:</h3>
+                            <ol>
+                                <li>Clique no botão <strong>"Acessar Pasta no Google Drive"</strong> ao lado para abrir o repositório de arquivos da prova.</li>
+                                <li>Faça o download de todas as peças do <strong>Conjunto de Montar Anéis</strong> para uma pasta no seu computador.</li>
+                                <li>Modele a <strong>Bucha (Peça 2)</strong>, crie o detalhamento em <strong>folha A4</strong> e execute a montagem completa unindo as peças baixadas do Drive com a Bucha desenhada por você.</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <a href="https://drive.google.com/drive/folders/196RTMZfnMIzCIXTk1yF5OpQJRDAd4rmj?usp=drive_link" target="_blank" rel="noopener noreferrer" class="btn-primary btn-blue">
+                                📥 ACESSAR PASTA NO GOOGLE DRIVE
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. DESENHOS TÉCNICOS DA BUCHA E DA MONTAGEM (RENDERIZADOS EM CANVAS HD) -->
+            <section class="section-card">
+                <div class="section-title-bar">
+                    <h2>📐 3. Desenhos Técnicos: Bucha (Peça 2) e Montagem do Conjunto</h2>
+                    <span class="badge">Clique nas imagens para ampliar</span>
+                </div>
+                <div class="section-content">
+                    <div class="drawings-grid">
+
+                        <!-- DESENHO 1: BUCHA -->
+                        <div class="drawing-box">
+                            <div class="drawing-header">
+                                <span>PEÇA 2 — DESENHO DA BUCHA</span>
+                                <span>Modelar + Detalhar em Folha A4</span>
+                            </div>
+                            <div class="drawing-viewport">
+                                <img id="img-bucha" alt="Desenho Técnico da Bucha - Peça 2" onclick="abrirZoom(this.src)">
+                                <div class="drawing-toolbar">
+                                    <button type="button" class="btn-mini" onclick="abrirZoom(document.getElementById('img-bucha').src)">🔍 Ampliar Desenho da Bucha</button>
+                                    <label class="btn-mini" style="cursor:pointer;">
+                                        📁 Carregar DESENHO BUCHA.jpg local
+                                        <input type="file" accept="image/*" style="display:none;" onchange="carregarImagemManual(this, 'img-bucha')">
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="drawing-specs">
+                                <strong>Dados Técnicos da Bucha (Peça 2):</strong>
+                                <ul>
+                                    <li><strong>Diâmetros:</strong> Aba superior <strong>Ø 24 mm</strong> | Corpo inferior <strong>Ø 18 mm</strong> | Furo passante <strong>Ø 3/8" (9,525 mm)</strong>.</li>
+                                    <li><strong>Alturas:</strong> Altura total <strong>16 mm</strong> | Corpo inferior <strong>12 mm</strong> | Aba superior <strong>4 mm</strong>.</li>
+                                    <li><strong>Folha A4:</strong> Representar em corte total com linha de centro, cotas e acabamento superficial (∇∇).</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- DESENHO 2: MONTAGEM -->
+                        <div class="drawing-box">
+                            <div class="drawing-header">
+                                <span>VISTA EXPLODIDA — CONJUNTO DE MONTAR ANÉIS</span>
+                                <span>Montagem Completa do Conjunto</span>
+                            </div>
+                            <div class="drawing-viewport">
+                                <img id="img-montagem" alt="Vista Explodida de Montagem" onclick="abrirZoom(this.src)">
+                                <div class="drawing-toolbar">
+                                    <button type="button" class="btn-mini" onclick="abrirZoom(document.getElementById('img-montagem').src)">🔍 Ampliar Vista de Montagem</button>
+                                    <label class="btn-mini" style="cursor:pointer;">
+                                        📁 Carregar MONTAGEM.jpg local
+                                        <input type="file" accept="image/*" style="display:none;" onchange="carregarImagemManual(this, 'img-montagem')">
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="drawing-specs">
+                                <strong>Instruções de Montagem do Conjunto:</strong>
+                                <ul>
+                                    <li>Posicionar o <strong>Corpo/Suporte Base</strong> como componente fixo e montar a <strong>Bucha (Peça 2)</strong> no furo superior.</li>
+                                    <li>Inserir o subconjunto de <strong>Elementos Soldados</strong> pelo lado esquerdo, alinhando o <strong>Pino Guia</strong> ao furo inferior.</li>
+                                    <li>Montar a <strong>Arruela Lisa</strong> e a <strong>Porca Sextavada</strong> na extremidade roscada direita do eixo.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. OS 10 CRITÉRIOS DE AVALIAÇÃO -->
+            <section class="section-card">
+                <div class="section-title-bar">
+                    <h2>✅ 4. Critérios de Avaliação do Desafio (10 Critérios)</h2>
+                    <span class="badge">Nota Total: 10,0 Pontos</span>
+                </div>
+                <div class="section-content">
+                    <div style="overflow-x: auto;">
+                        <table class="criteria-table">
+                            <thead>
+                                <tr>
+                                    <th>Nº</th>
+                                    <th>Dimensão Avaliada</th>
+                                    <th>Critério Técnico de Avaliação</th>
+                                    <th>Peso</th>
+                                    <th>Conferência</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>01</strong></td>
+                                    <td><span class="cat-pill cat-model">Modelamento da Peça</span></td>
+                                    <td><strong>Fidelidade Geométrica 3D:</strong> Modelamento correto do corpo cilíndrico escalonado da Bucha (Peça 2) respeitando a simetria axial.</td>
+                                    <td><strong>1,0 pt</strong></td>
+                                    <td><input type="checkbox"> OK</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>02</strong></td>
+                                    <td><span class="cat-pill cat-model">Modelamento da Peça</span></td>
+                                    <td><strong>Precisão Dimensional Externa:</strong> Aplicação exata dos diâmetros Ø24 mm (aba) e Ø18 mm (corpo) e alturas de 16 mm, 12 mm e 4 mm.</td>
+                                    <td><strong>1,0 pt</strong></td>
+                                    <td><input type="checkbox"> OK</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>03</strong></td>
+                                    <td><span class="cat-pill cat-model">Modelamento da Peça</span></td>
+                                    <td><strong>Furação Central e Conversão:</strong> Execução exata do furo passante central de Ø 3/8" (9,525 mm) concêntrico à peça.</td>
+                                    <td><strong>1,0 pt</strong></td>
+                                    <td><input type="checkbox"> OK</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>04</strong></td>
+                                    <td><span class="cat-pill cat-cota">Cotagem da Peça (A4)</span></td>
+                                    <td><strong>Padronização da Folha A4 e Legenda:</strong> Uso correto do formato A4, margens, escala compatível e preenchimento completo da legenda ABNT.</td>
+                                    <td><strong>1,0 pt</strong></td>
+                                    <td><input type="checkbox"> OK</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>05</strong></td>
+                                    <td><span class="cat-pill cat-cota">Cotagem da Peça (A4)</span></td>
+                                    <td><strong>Representação em Corte e Simetria:</strong> Aplicação correta da vista em corte total com hachuras a 45° e linha de centro traço-ponto.</td>
+                                    <td><strong>1,0 pt</strong></td>
+                                    <td><input type="checkbox"> OK</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>06</strong></td>
+                                    <td><span class="cat-pill cat-cota">Cotagem da Peça (A4)</span></td>
+                                    <td><strong>Cotagem Funcional Completa:</strong> Presença e clareza de todas as cotas (Ø24, Ø18, Ø3/8", 16, 12 e 4) sem omissões ou cruzamentos.</td>
+                                    <td><strong>1,0 pt</strong></td>
+                                    <td><input type="checkbox"> OK</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>07</strong></td>
+                                    <td><span class="cat-pill cat-cota">Cotagem da Peça (A4)</span></td>
+                                    <td><strong>Simbologia de Acabamento Superficial:</strong> Indicação correta dos três pares de símbolos de acabamento (∇∇) nas superfícies especificadas.</td>
+                                    <td><strong>1,0 pt</strong></td>
+                                    <td><input type="checkbox"> OK</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>08</strong></td>
+                                    <td><span class="cat-pill cat-mont">Montagem do Conjunto</span></td>
+                                    <td><strong>Posicionamento da Bucha no Suporte:</strong> Alinhamento concêntrico e encosto correto da Bucha (Peça 2) no furo superior do corpo base.</td>
+                                    <td><strong>1,0 pt</strong></td>
+                                    <td><input type="checkbox"> OK</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>09</strong></td>
+                                    <td><span class="cat-pill cat-mont">Montagem do Conjunto</span></td>
+                                    <td><strong>Montagem dos Elementos Soldados e Pino Guia:</strong> Posicionamento axial correto do eixo soldado no corpo base travado pelo pino guia inferior.</td>
+                                    <td><strong>1,0 pt</strong></td>
+                                    <td><input type="checkbox"> OK</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>10</strong></td>
+                                    <td><span class="cat-pill cat-mont">Montagem do Conjunto</span></td>
+                                    <td><strong>Fixação Final e Integridade do Conjunto:</strong> Posicionamento correto da arruela lisa e porca sextavada sem interferência volumétrica entre peças.</td>
+                                    <td><strong>1,0 pt</strong></td>
+                                    <td><input type="checkbox"> OK</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. UPLOAD E ENVIO POR E-MAIL (PROFESSOR + ALUNO) -->
+            <section class="section-card orange-accent">
+                <div class="section-title-bar">
+                    <h2>📤 5. Upload dos Arquivos e Envio para o Professor e Aluno</h2>
+                    <span class="badge orange">Envio de Anexos</span>
+                </div>
+                <div class="section-content">
+                    <div class="email-info-banner">
+                        <strong>📧 Destinatários Configurados:</strong> Ao enviar a avaliação, seus arquivos seguem como anexo para o Professor (<strong>marcelo.ozorio@edu.sc.senai.br</strong>) e em cópia automática (CC) para o seu e-mail (<strong id="confirm-student-email">-</strong>).
+                    </div>
+
+                    <!-- Iframe oculto para permitir submissão multipart sem travar a página -->
+                    <iframe name="hidden_submit_iframe" id="hidden_submit_iframe" style="display:none;"></iframe>
+
+                    <form id="submission-form" action="https://formsubmit.co/marcelo.ozorio@edu.sc.senai.br" method="POST" enctype="multipart/form-data" target="hidden_submit_iframe" onsubmit="enviarAvaliacaoCompleta(event)">
+                        
+                        <!-- Parâmetros FormSubmit -->
+                        <input type="hidden" name="_subject" id="hidden_subject" value="Avaliação Prática SENAI - Conjunto de Montar Anéis">
+                        <input type="hidden" name="_cc" id="hidden_cc" value="">
+                        <input type="hidden" name="_replyto" id="hidden_replyto" value="">
+                        <input type="hidden" name="_template" value="table">
+                        <input type="hidden" name="_captcha" value="false">
+
+                        <!-- Dados de Identificação do Aluno -->
+                        <input type="hidden" name="Aluno" id="hidden_nome" value="">
+                        <input type="hidden" name="Turma" id="hidden_turma" value="">
+                        <input type="hidden" name="Email_do_Aluno" id="hidden_email" value="">
+                        <input type="hidden" name="Inicio_da_Prova" id="hidden_inicio" value="">
+                        <input type="hidden" name="Tempo_Total" id="hidden_tempo" value="">
+
+                        <!-- Campo de anexo unificado compatível com filtros anti-bloqueio -->
+                        <input type="file" name="Pacote_Unificado_Avaliacao" id="hidden_unified_package" style="display:none;">
+
+                        <div class="upload-grid">
+                            <div class="upload-card" id="card-up-1">
+                                <span class="upload-icon">⚙️</span>
+                                <h4>1. Peças Individuais e Bucha 3D</h4>
+                                <p>Anexe a Bucha modelada e/ou peças individuais (.sldprt, .ipt, .step, .zip)</p>
+                                <input type="file" id="file_pecas" class="file-input" multiple required onchange="atualizarCardUpload(this, 'card-up-1', 'status-up-1')">
+                                <div class="file-status" id="status-up-1"></div>
+                            </div>
+
+                            <div class="upload-card" id="card-up-2">
+                                <span class="upload-icon">📄</span>
+                                <h4>2. Folha de Desenho A4 da Bucha</h4>
+                                <p>Anexe o detalhamento técnico da Bucha em A4 (.pdf, .slddrw, .idw, .dwg)</p>
+                                <input type="file" id="file_desenho" class="file-input" multiple required onchange="atualizarCardUpload(this, 'card-up-2', 'status-up-2')">
+                                <div class="file-status" id="status-up-2"></div>
+                            </div>
+
+                            <div class="upload-card" id="card-up-3">
+                                <span class="upload-icon">🧩</span>
+                                <h4>3. Montagem Realizada</h4>
+                                <p>Anexe a montagem do Conjunto de Montar Anéis (.sldasm, .iam, .step, .zip)</p>
+                                <input type="file" id="file_montagem" class="file-input" multiple required onchange="atualizarCardUpload(this, 'card-up-3', 'status-up-3')">
+                                <div class="file-status" id="status-up-3"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="observacoes_aluno">Observações Técnicas do Aluno (Opcional):</label>
+                            <textarea name="Observacoes" id="observacoes_aluno" rows="2" class="form-control" placeholder="Informe detalhes adicionais ou versão do software CAD utilizado..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-primary" id="btn-submit-final">
+                            <span>📨 FINALIZAR E ENVIAR AVALIAÇÃO (PROFESSOR + ALUNO)</span>
+                        </button>
+                    </form>
+
+                    <!-- PAINEL DE CONFIRMAÇÃO E ENVIO REDUNDANTE -->
+                    <div id="submission-result">
+                        <h3 style="color: #065F46; margin-bottom: 0.4rem;">✅ Avaliação Processada e Pacote de Entrega Gerado!</h3>
+                        <p id="result-msg" style="font-size: 0.92rem; margin-bottom: 0.75rem;"></p>
+                        <div class="fallback-actions">
+                            <a id="btn-gmail-direct" href="#" target="_blank" style="background: #EA4335; color: #fff;">
+                                📧 Confirmar Envio pelo Gmail Web (Professor + Cópia Aluno)
+                            </a>
+                            <a id="btn-outlook-direct" href="#" style="background: var(--senai-blue); color: #fff;">
+                                📨 Confirmar pelo Outlook / App de E-mail
+                            </a>
+                            <button type="button" onclick="baixarPacoteUnificado()" style="background: #059669; color: #fff;">
+                                💾 Baixar Novamente o Pacote Unificado (.HTML)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- MODAL DE ZOOM DAS IMAGENS -->
+    <div class="modal-overlay" id="zoom-modal" onclick="fecharZoom()">
+        <span class="close-modal-btn">&times;</span>
+        <div class="modal-box-zoom" onclick="event.stopPropagation()">
+            <img id="zoom-img" src="" alt="Desenho Ampliado">
+        </div>
+    </div>
+
+    <!-- RODAPÉ INSTITUCIONAL SENAI / FIESC 2026 -->
+    <footer>
+        <div class="footer-container">
+            <div>
+                <p><strong>SENAI — Serviço Nacional de Aprendizagem Industrial | FIESC</strong></p>
+                <p>Rodovia Admar Gonzaga, 2765 | Itacorubi | 88034-001 | Florianópolis - SC</p>
+                <p>sc.senai.br | faleconosco@fiesc.com.br | (48) 3231 4100 | 0800 048 1212</p>
+            </div>
+            <div class="author-signature">
+                Desenvolvido por Msc. Marcelo Cevey<br>
+                <span style="font-size: 0.78rem; font-weight: 400; opacity: 0.9;">Prof. Me. Marcelo Ozorio Cevey — marcelo.ozorio@edu.sc.senai.br</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // =========================================================================
+        // 1. GERADOR NATIVO EM CANVAS HD DOS DESENHOS DA BUCHA E DA MONTAGEM
+        // Garante que as imagens SEMPRE abram perfeitamente em qualquer computador
+        // =========================================================================
+
+        function desenharSeta(ctx, x1, y1, x2, y2, tamanho = 16) {
+            const angulo = Math.atan2(y2 - y1, x2 - x1);
+            ctx.beginPath();
+            ctx.moveTo(x2, y2);
+            ctx.lineTo(x2 - tamanho * Math.cos(angulo - Math.PI / 7), y2 - tamanho * Math.sin(angulo - Math.PI / 7));
+            ctx.lineTo(x2 - tamanho * Math.cos(angulo + Math.PI / 7), y2 - tamanho * Math.sin(angulo + Math.PI / 7));
+            ctx.closePath();
+            ctx.fillStyle = "#000000";
+            ctx.fill();
+        }
+
+        function desenharLinhaCota(ctx, x1, y1, x2, y2, tamanhoSeta = 16) {
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.strokeStyle = "#000000";
+            ctx.lineWidth = 2.2;
+            ctx.stroke();
+            desenharSeta(ctx, x2, y2, x1, y1, tamanhoSeta);
+            desenharSeta(ctx, x1, y1, x2, y2, tamanhoSeta);
+        }
+
+        function preencherHachura45(ctx, poligono) {
+            ctx.save();
+            ctx.beginPath();
+            poligono.forEach((pt, idx) => {
+                if (idx === 0) ctx.moveTo(pt[0], pt[1]);
+                else ctx.lineTo(pt[0], pt[1]);
+            });
+            ctx.closePath();
+            ctx.fillStyle = "#EEF5FC";
+            ctx.fill();
+            ctx.clip();
+
+            ctx.strokeStyle = "#000000";
+            ctx.lineWidth = 2.2;
+            for (let i = -600; i < 1200; i += 16) {
+                ctx.beginPath();
+                ctx.moveTo(i, 600);
+                ctx.lineTo(i + 600, 0);
+                ctx.stroke();
+            }
+            ctx.restore();
+
+            ctx.beginPath();
+            poligono.forEach((pt, idx) => {
+                if (idx === 0) ctx.moveTo(pt[0], pt[1]);
+                else ctx.lineTo(pt[0], pt[1]);
+            });
+            ctx.closePath();
+            ctx.strokeStyle = "#000000";
+            ctx.lineWidth = 4;
+            ctx.lineJoin = "round";
+            ctx.stroke();
+        }
+
+        function gerarDesenhoBuchaHD() {
+            const canvas = document.createElement("canvas");
+            canvas.width = 820;
+            canvas.height = 640;
+            const ctx = canvas.getContext("2d");
+
+            // Fundo técnico azul-gelo claro idêntico à imagem aprimorada
+            ctx.fillStyle = "#EEF5FC";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Balão número 2
+            ctx.beginPath();
+            ctx.arc(170, 170, 52, 0, Math.PI * 2);
+            ctx.strokeStyle = "#000000";
+            ctx.lineWidth = 3.2;
+            ctx.stroke();
+            ctx.fillStyle = "#000000";
+            ctx.font = "bold 62px Arial, sans-serif";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText("2", 170, 173);
+
+            // Coordenadas da Bucha em Corte
+            const xEsqAba = 335, xEsqCorpo = 368, xEsqFuro = 416;
+            const xDirFuro = 534, xDirCorpo = 582, xDirAba = 615;
+            const yTopo = 315, yBaseAba = 362, yBaseCorpo = 505;
+
+            const paredeEsquerda = [
+                [xEsqAba, yTopo], [xEsqFuro, yTopo], [xEsqFuro, yBaseCorpo],
+                [xEsqCorpo, yBaseCorpo], [xEsqCorpo, yBaseAba], [xEsqAba, yBaseAba]
+            ];
+            const paredeDireita = [
+                [xDirFuro, yTopo], [xDirAba, yTopo], [xDirAba, yBaseAba],
+                [xDirCorpo, yBaseAba], [xDirCorpo, yBaseCorpo], [xDirFuro, yBaseCorpo]
+            ];
+
+            preencherHachura45(ctx, paredeEsquerda);
+            preencherHachura45(ctx, paredeDireita);
+
+            // Linhas horizontais de topo e base do furo central
+            ctx.beginPath();
+            ctx.moveTo(xEsqFuro, yTopo);
+            ctx.lineTo(xDirFuro, yTopo);
+            ctx.moveTo(xEsqFuro, yBaseCorpo);
+            ctx.lineTo(xDirFuro, yBaseCorpo);
+            ctx.strokeStyle = "#000000";
+            ctx.lineWidth = 4;
+            ctx.stroke();
+
+            // Linha de Centro (Traço-Ponto)
+            ctx.save();
+            ctx.beginPath();
+            ctx.setLineDash([45, 10, 10, 10]);
+            ctx.moveTo(475, 290);
+            ctx.lineTo(475, 535);
+            ctx.lineWidth = 2.2;
+            ctx.stroke();
+            ctx.restore();
+
+            // Cota Superior Ø 24
+            ctx.lineWidth = 2.2;
+            ctx.beginPath();
+            ctx.moveTo(xEsqAba, yTopo - 10); ctx.lineTo(xEsqAba, 155);
+            ctx.moveTo(xDirAba, yTopo - 10); ctx.lineTo(xDirAba, 155);
+            ctx.stroke();
+            desenharLinhaCota(ctx, xEsqAba, 180, xDirAba, 180, 22);
+            ctx.font = "bold 46px Arial, sans-serif";
+            ctx.fillText("Ø 24", 475, 152);
+
+            // Cota Interna Ø 3/8"
+            ctx.beginPath();
+            ctx.moveTo(xEsqFuro, yTopo - 10); ctx.lineTo(xEsqFuro, 225);
+            ctx.moveTo(xDirFuro, yTopo - 10); ctx.lineTo(xDirFuro, 225);
+            ctx.stroke();
+            desenharLinhaCota(ctx, xEsqFuro, 255, xDirFuro, 255, 20);
+            ctx.font = "bold 44px Arial, sans-serif";
+            ctx.fillText('Ø 3/8"', 488, 222);
+
+            // Cotas Verticais à Esquerda (16, 12, 4)
+            ctx.beginPath();
+            ctx.moveTo(xEsqAba - 10, yTopo); ctx.lineTo(175, yTopo);
+            ctx.moveTo(xEsqAba - 10, yBaseAba); ctx.lineTo(260, yBaseAba);
+            ctx.moveTo(xEsqCorpo - 10, yBaseCorpo); ctx.lineTo(185, yBaseCorpo);
+            ctx.stroke();
+
+            // Cota 16
+            desenharLinhaCota(ctx, 220, yTopo, 220, yBaseCorpo, 22);
+            ctx.save();
+            ctx.translate(195, (yTopo + yBaseCorpo) / 2);
+            ctx.rotate(-Math.PI / 2);
+            ctx.font = "bold 44px Arial, sans-serif";
+            ctx.fillText("16", 0, 0);
+            ctx.restore();
+
+            // Cota 12
+            desenharLinhaCota(ctx, 282, yBaseAba, 282, yBaseCorpo, 22);
+            ctx.save();
+            ctx.translate(256, (yBaseAba + yBaseCorpo) / 2);
+            ctx.rotate(-Math.PI / 2);
+            ctx.font = "bold 44px Arial, sans-serif";
+            ctx.fillText("12", 0, 0);
+            ctx.restore();
+
+            // Cota 4
+            ctx.beginPath();
+            ctx.moveTo(282, 260); ctx.lineTo(282, yBaseAba);
+            ctx.stroke();
+            desenharSeta(ctx, 282, 260, 282, yTopo, 20);
+            ctx.save();
+            ctx.translate(256, 282);
+            ctx.rotate(-Math.PI / 2);
+            ctx.font = "bold 44px Arial, sans-serif";
+            ctx.fillText("4", 0, 0);
+            ctx.restore();
+
+            // Cota Inferior Ø 18
+            ctx.beginPath();
+            ctx.moveTo(xEsqCorpo, yBaseCorpo + 10); ctx.lineTo(xEsqCorpo, 590);
+            ctx.moveTo(xDirCorpo, yBaseCorpo + 10); ctx.lineTo(xDirCorpo, 590);
+            ctx.stroke();
+            desenharLinhaCota(ctx, xEsqCorpo, 565, xDirCorpo, 565, 22);
+            ctx.font = "bold 46px Arial, sans-serif";
+            ctx.fillText("Ø 18", 475, 540);
+
+            // Símbolos de Acabamento Superficial (∇∇)
+            ctx.lineWidth = 2.2;
+            // 1. Interno no furo 3/8"
+            ctx.beginPath();
+            ctx.moveTo(xDirFuro, 390); ctx.lineTo(xDirFuro - 24, 374); ctx.lineTo(xDirFuro - 24, 406); ctx.closePath();
+            ctx.moveTo(xDirFuro, 422); ctx.lineTo(xDirFuro - 24, 406); ctx.lineTo(xDirFuro - 24, 438); ctx.closePath();
+            ctx.stroke();
+
+            // 2. Externo no corpo Ø 18
+            ctx.beginPath();
+            ctx.moveTo(xDirCorpo, 425); ctx.lineTo(xDirCorpo + 24, 409); ctx.lineTo(xDirCorpo + 24, 441); ctx.closePath();
+            ctx.moveTo(xDirCorpo, 457); ctx.lineTo(xDirCorpo + 24, 441); ctx.lineTo(xDirCorpo + 24, 473); ctx.closePath();
+            ctx.stroke();
+
+            // 3. Na linha de extensão direita da aba Ø 24
+            ctx.beginPath();
+            ctx.moveTo(xDirAba + 12, yBaseAba); ctx.lineTo(745, yBaseAba);
+            ctx.moveTo(665, yBaseAba); ctx.lineTo(648, yBaseAba + 26); ctx.lineTo(682, yBaseAba + 26); ctx.closePath();
+            ctx.moveTo(699, yBaseAba); ctx.lineTo(682, yBaseAba + 26); ctx.lineTo(716, yBaseAba + 26); ctx.closePath();
+            ctx.stroke();
+
+            return canvas.toDataURL("image/png");
+        }
+
+        function gerarDesenhoMontagemHD() {
+            const canvas = document.createElement("canvas");
+            canvas.width = 1040;
+            canvas.height = 720;
+            const ctx = canvas.getContext("2d");
+
+            ctx.fillStyle = "#EEF5FC";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = "#000000";
+            ctx.lineJoin = "round";
+
+            // Função auxiliar de hachura inclinada
+            function preencherHachuraMontagem(pts, espacamento = 11) {
+                ctx.save();
+                ctx.beginPath();
+                pts.forEach((p, i) => i === 0 ? ctx.moveTo(p[0], p[1]) : ctx.lineTo(p[0], p[1]));
+                ctx.closePath();
+                ctx.fillStyle = "#FFFFFF";
+                ctx.fill();
+                ctx.clip();
+                ctx.strokeStyle = "#000000";
+                ctx.lineWidth = 1.6;
+                for (let k = -400; k < 1200; k += espacamento) {
+                    ctx.beginPath();
+                    ctx.moveTo(k, 0);
+                    ctx.lineTo(k + 500, 500);
+                    ctx.stroke();
+                }
+                ctx.restore();
+                ctx.beginPath();
+                pts.forEach((p, i) => i === 0 ? ctx.moveTo(p[0], p[1]) : ctx.lineTo(p[0], p[1]));
+                ctx.closePath();
+                ctx.strokeStyle = "#000000";
+                ctx.lineWidth = 2.6;
+                ctx.stroke();
+            }
+
+            // Textura granulada para o corpo fundido
+            function preencherTexturaFundido(pts) {
+                ctx.save();
+                ctx.beginPath();
+                pts.forEach((p, i) => i === 0 ? ctx.moveTo(p[0], p[1]) : ctx.lineTo(p[0], p[1]));
+                ctx.closePath();
+                ctx.fillStyle = "#F8FAFC";
+                ctx.fill();
+                ctx.clip();
+                ctx.fillStyle = "#475569";
+                for (let x = 320; x < 760; x += 9) {
+                    for (let y = 180; y < 680; y += 9) {
+                        const ox = ((x * 17 + y * 31) % 7) - 3;
+                        const oy = ((x * 23 + y * 13) % 7) - 3;
+                        ctx.fillRect(x + ox, y + oy, 1.8, 1.8);
+                    }
+                }
+                ctx.restore();
+                ctx.beginPath();
+                pts.forEach((p, i) => i === 0 ? ctx.moveTo(p[0], p[1]) : ctx.lineTo(p[0], p[1]));
+                ctx.closePath();
+                ctx.strokeStyle = "#000000";
+                ctx.lineWidth = 2.6;
+                ctx.stroke();
+            }
+
+            // 1. BUCHA SUPERIOR (PEÇA 2)
+            ctx.lineWidth = 2.6;
+            ctx.fillStyle = "#FFFFFF";
+            // Corpo cilíndrico inferior da bucha
+            ctx.beginPath();
+            ctx.moveTo(478, 86); ctx.lineTo(478, 118);
+            ctx.bezierCurveTo(478, 128, 534, 128, 534, 118);
+            ctx.lineTo(534, 86);
+            ctx.fill(); ctx.stroke();
+
+            // Aba superior da bucha
+            ctx.beginPath();
+            ctx.moveTo(464, 70); ctx.lineTo(464, 84);
+            ctx.bezierCurveTo(464, 98, 548, 98, 548, 84);
+            ctx.lineTo(548, 70);
+            ctx.fill(); ctx.stroke();
+
+            ctx.beginPath();
+            ctx.ellipse(506, 70, 42, 12, 0, 0, Math.PI * 2);
+            ctx.fill(); ctx.stroke();
+
+            ctx.beginPath();
+            ctx.ellipse(506, 70, 16, 4.5, 0, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Linha de centro vertical da Bucha
+            ctx.save();
+            ctx.setLineDash([28, 6, 5, 6]);
+            ctx.lineWidth = 1.6;
+            ctx.beginPath();
+            ctx.moveTo(506, 38); ctx.lineTo(506, 285);
+            ctx.stroke();
+            ctx.restore();
+
+            // 2. CORPO BASE EM CORTE PARCIAL (CENTRO)
+            // Face superior inclinada hachurada
+            preencherHachuraMontagem([[366, 178], [568, 152], [658, 188], [446, 214]], 10);
+            // Corte frontal esquerdo do cabeçote superior
+            preencherHachuraMontagem([[366, 178], [446, 214], [446, 274], [366, 234]], 10);
+            // Parede vertical direita em corte (acima do furo central)
+            preencherHachuraMontagem([[536, 198], [658, 188], [658, 336], [580, 344], [580, 275], [536, 255]], 10);
+
+            // Alojamento cilíndrico da Bucha no cabeçote
+            ctx.fillStyle = "#FFFFFF";
+            ctx.beginPath();
+            ctx.ellipse(506, 198, 38, 9, 0, 0, Math.PI * 2);
+            ctx.fill(); ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(476, 202); ctx.lineTo(476, 255);
+            ctx.bezierCurveTo(476, 248, 536, 248, 536, 255);
+            ctx.lineTo(536, 202);
+            ctx.fill(); ctx.stroke();
+
+            // Corpo fundido texturizado
+            preencherTexturaFundido([
+                [488, 252], [488, 505], [335, 535], [335, 608], [468, 622],
+                [495, 672], [740, 636], [740, 418], [630, 430], [630, 540], [488, 505]
+            ]);
+
+            // Mesa superior lisa da base inferior
+            ctx.fillStyle = "#FFFFFF";
+            ctx.beginPath();
+            ctx.moveTo(335, 535); ctx.lineTo(488, 505); ctx.lineTo(630, 540); ctx.lineTo(495, 580);
+            ctx.closePath();
+            ctx.fill(); ctx.stroke();
+
+            // Plano de corte horizontal abaixo do furo central
+            preencherHachuraMontagem([[598, 405], [676, 396], [740, 418], [630, 430]], 10);
+
+            // Alojamento circular rebaixado e furo principal
+            ctx.lineWidth = 2.8;
+            ctx.beginPath();
+            ctx.ellipse(566, 390, 58, 118, 0, Math.PI * 0.52, Math.PI * 1.48);
+            ctx.stroke();
+
+            ctx.fillStyle = "#E2E8F0";
+            ctx.beginPath();
+            ctx.ellipse(598, 388, 36, 62, 0, Math.PI * 0.52, Math.PI * 1.48);
+            ctx.fill(); ctx.stroke();
+
+            // Furo do pino guia no rebaixo da base
+            ctx.fillStyle = "#FFFFFF";
+            ctx.beginPath();
+            ctx.ellipse(566, 476, 6, 10, 0, 0, Math.PI * 2);
+            ctx.fill(); ctx.stroke();
+
+            // 3. SUBCONJUNTO ESQUERDO ("Elementos soldados" + Pino Guia)
+            ctx.fillStyle = "#000000";
+            ctx.font = "bold 20px Arial, sans-serif";
+            ctx.textAlign = "center";
+            ctx.fillText("Elementos soldados", 320, 325);
+            ctx.lineWidth = 1.6;
+            ctx.beginPath();
+            ctx.moveTo(270, 330); ctx.lineTo(185, 385);
+            ctx.moveTo(270, 330); ctx.lineTo(318, 388);
+            ctx.stroke();
+
+            // Espiga roscada direita
+            ctx.lineWidth = 2.6;
+            ctx.fillStyle = "#FFFFFF";
+            ctx.beginPath();
+            ctx.moveTo(265, 392); ctx.lineTo(412, 375);
+            ctx.bezierCurveTo(432, 375, 438, 458, 418, 460);
+            ctx.lineTo(272, 477);
+            ctx.closePath();
+            ctx.fill(); ctx.stroke();
+
+            // Filetes da rosca
+            ctx.lineWidth = 2;
+            for (let rx = 290; rx <= 405; rx += 14) {
+                const ry = 390 - (rx - 280) * 0.12;
+                ctx.beginPath();
+                ctx.moveTo(rx, ry);
+                ctx.bezierCurveTo(rx + 14, ry + 15, rx + 18, ry + 68, rx + 5, ry + 84);
+                ctx.stroke();
+            }
+
+            // Disco / Flange Central
+            ctx.lineWidth = 2.6;
+            ctx.fillStyle = "#FFFFFF";
+            ctx.beginPath();
+            ctx.ellipse(212, 442, 54, 118, -0.12, 0, Math.PI * 2);
+            ctx.fill(); ctx.stroke();
+            ctx.beginPath();
+            ctx.ellipse(198, 444, 54, 118, -0.12, 0, Math.PI * 2);
+            ctx.fill(); ctx.stroke();
+
+            // Cilindro dianteiro com rasgo de chaveta
+            ctx.beginPath();
+            ctx.moveTo(100, 386); ctx.lineTo(194, 374);
+            ctx.bezierCurveTo(228, 378, 236, 502, 206, 508);
+            ctx.lineTo(112, 520);
+            ctx.closePath();
+            ctx.fill(); ctx.stroke();
+
+            ctx.beginPath();
+            ctx.ellipse(106, 453, 36, 67, -0.12, 0, Math.PI * 2);
+            ctx.fill(); ctx.stroke();
+
+            // Rasgo de chaveta no topo do cilindro
+            ctx.fillStyle = "#E2E8F0";
+            ctx.beginPath();
+            ctx.moveTo(86, 392); ctx.lineTo(174, 380); ctx.lineTo(174, 398); ctx.lineTo(100, 408);
+            ctx.closePath();
+            ctx.fill(); ctx.stroke();
+
+            // Furo do pino guia no flange
+            ctx.fillStyle = "#FFFFFF";
+            ctx.beginPath();
+            ctx.ellipse(194, 524, 6, 10, 0, 0, Math.PI * 2);
+            ctx.fill(); ctx.stroke();
+
+            // Pino Guia Cilíndrico (abaixo à esquerda)
+            ctx.beginPath();
+            ctx.moveTo(85, 535); ctx.lineTo(138, 528);
+            ctx.bezierCurveTo(144, 528, 146, 546, 140, 547);
+            ctx.lineTo(87, 554);
+            ctx.closePath();
+            ctx.fill(); ctx.stroke();
+            ctx.beginPath();
+            ctx.ellipse(86, 544.5, 4.5, 9.5, 0, 0, Math.PI * 2);
+            ctx.fill(); ctx.stroke();
+
+            // 4. ARRUELA LISA E PORCA SEXTAVADA (DIREITA)
+            ctx.fillStyle = "#FFFFFF";
+            ctx.beginPath();
+            ctx.ellipse(792, 366, 36, 86, -0.1, 0, Math.PI * 2);
+            ctx.fill(); ctx.stroke();
+            ctx.fillStyle = "#EEF5FC";
+            ctx.beginPath();
+            ctx.ellipse(788, 366, 17, 41, -0.1, 0, Math.PI * 2);
+            ctx.fill(); ctx.stroke();
+
+            // Porca Sextavada
+            ctx.fillStyle = "#FFFFFF";
+            ctx.beginPath();
+            ctx.moveTo(878, 280); ctx.lineTo(935, 272); ctx.lineTo(968, 312);
+            ctx.lineTo(974, 388); ctx.lineTo(946, 430); ctx.lineTo(890, 438);
+            ctx.closePath();
+            ctx.fill(); ctx.stroke();
+
+            ctx.beginPath();
+            ctx.ellipse(892, 359, 33, 76, -0.1, 0, Math.PI * 2);
+            ctx.fill(); ctx.stroke();
+
+            ctx.fillStyle = "#EEF5FC";
+            ctx.beginPath();
+            ctx.ellipse(889, 359, 17, 42, -0.1, 0, Math.PI * 2);
+            ctx.fill(); ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(922, 315); ctx.lineTo(968, 312);
+            ctx.moveTo(927, 392); ctx.lineTo(974, 388);
+            ctx.stroke();
+
+            // Linhas de Centro / Montagem Horizontais (Traço-Ponto)
+            ctx.save();
+            ctx.setLineDash([36, 8, 6, 8]);
+            ctx.lineWidth = 1.6;
+            ctx.beginPath();
+            ctx.moveTo(15, 464); ctx.lineTo(142, 448);
+            ctx.moveTo(432, 415); ctx.lineTo(1015, 342);
+            ctx.moveTo(52, 548); ctx.lineTo(582, 474);
+            ctx.stroke();
+            ctx.restore();
+
+            return canvas.toDataURL("image/png");
+        }
+
+        // Inicializa os desenhos assim que a página abre e verifica se os JPGs estão na mesma pasta
+        window.addEventListener("DOMContentLoaded", () => {
+            const imgBucha = document.getElementById("img-bucha");
+            const imgMontagem = document.getElementById("img-montagem");
+
+            // 1. Define imediatamente os desenhos HD nativos (Garantia de 100% de abertura)
+            imgBucha.src = gerarDesenhoBuchaHD();
+            imgMontagem.src = gerarDesenhoMontagemHD();
+
+            // 2. Se os arquivos DESENHO BUCHA.jpg ou MONTAGEM.jpg existirem na mesma pasta, carrega-os automaticamente
+            const testeBucha = new Image();
+            testeBucha.onload = function() {
+                if (this.naturalWidth > 0) imgBucha.src = this.src;
+            };
+            testeBucha.src = "DESENHO BUCHA.jpg";
+
+            const testeMontagem = new Image();
+            testeMontagem.onload = function() {
+                if (this.naturalWidth > 0) imgMontagem.src = this.src;
+            };
+            testeMontagem.src = "MONTAGEM.jpg";
+        });
+
+        function carregarImagemManual(input, imgId) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById(imgId).src = e.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // =========================================================================
+        // 2. CONTROLE DE LOGIN, CRONÔMETRO E ENVIO DE E-MAIL (PROFESSOR + ALUNO)
+        // =========================================================================
+
+        let dadosAluno = {
+            nome: "",
+            turma: "",
+            email: "",
+            inicio: "",
+            tempo: "00:00:00"
+        };
+        let segundos = 0;
+        let ultimoPacoteHtml = "";
+        let ultimoNomePacote = "";
+
+        function iniciarProva(event) {
+            event.preventDefault();
+            dadosAluno.nome = document.getElementById("aluno_nome").value.trim();
+            dadosAluno.turma = document.getElementById("aluno_turma").value.trim();
+            dadosAluno.email = document.getElementById("aluno_email").value.trim();
+            dadosAluno.inicio = new Date().toLocaleString("pt-BR");
+
+            // Atualiza barra superior
+            document.getElementById("badge-nome").textContent = dadosAluno.nome;
+            document.getElementById("badge-turma").textContent = dadosAluno.turma;
+            document.getElementById("badge-email").textContent = dadosAluno.email;
+            document.getElementById("confirm-student-email").textContent = dadosAluno.email;
+            document.getElementById("student-badge").style.display = "block";
+
+            // Configura campos ocultos para envio ao Professor e cópia (CC) ao Aluno
+            document.getElementById("hidden_nome").value = dadosAluno.nome;
+            document.getElementById("hidden_turma").value = dadosAluno.turma;
+            document.getElementById("hidden_email").value = dadosAluno.email;
+            document.getElementById("hidden_inicio").value = dadosAluno.inicio;
+            document.getElementById("hidden_cc").value = `${dadosAluno.email},marcelocevey@gmail.com`;
+            document.getElementById("hidden_replyto").value = dadosAluno.email;
+            document.getElementById("hidden_subject").value = `[Avaliação SENAI 2026] ${dadosAluno.nome} (${dadosAluno.turma}) - Conjunto de Montar Anéis`;
+
+            // Libera a tela da prova
+            document.getElementById("login-screen").style.display = "none";
+            document.getElementById("exam-screen").style.display = "block";
+
+            setInterval(() => {
+                segundos++;
+                const h = String(Math.floor(segundos / 3600)).padStart(2, "0");
+                const m = String(Math.floor((segundos % 3600) / 60)).padStart(2, "0");
+                const s = String(segundos % 60).padStart(2, "0");
+                dadosAluno.tempo = `${h}:${m}:${s}`;
+                document.getElementById("exam-timer").textContent = dadosAluno.tempo;
+                document.getElementById("hidden_tempo").value = dadosAluno.tempo;
+            }, 1000);
+
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        function atualizarCardUpload(input, cardId, statusId) {
+            const card = document.getElementById(cardId);
+            const status = document.getElementById(statusId);
+            if (input.files && input.files.length > 0) {
+                const lista = Array.from(input.files).map(f => `${f.name} (${(f.size / 1024).toFixed(1)} KB)`).join(", ");
+                card.classList.add("file-selected");
+                status.textContent = `✔ Anexado: ${lista}`;
+            } else {
+                card.classList.remove("file-selected");
+                status.textContent = "";
+            }
+        }
+
+        function abrirZoom(src) {
+            document.getElementById("zoom-img").src = src;
+            document.getElementById("zoom-modal").style.display = "flex";
+        }
+
+        function fecharZoom() {
+            document.getElementById("zoom-modal").style.display = "none";
+        }
+
+        function converterArquivoBase64(file, categoria) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve({
+                    categoria: categoria,
+                    nome: file.name,
+                    tamanhoKB: (file.size / 1024).toFixed(1),
+                    dataUrl: reader.result
+                });
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function enviarAvaliacaoCompleta(event) {
+            event.preventDefault();
+
+            const btn = document.getElementById("btn-submit-final");
+            btn.disabled = true;
+            btn.innerHTML = "<span>⏳ EMPACOTANDO PEÇAS E ENVIANDO E-MAILS... AGUARDE</span>";
+
+            const arqs1 = Array.from(document.getElementById("file_pecas").files).map(f => converterArquivoBase64(f, "1. Peça Bucha / Individuais"));
+            const arqs2 = Array.from(document.getElementById("file_desenho").files).map(f => converterArquivoBase64(f, "2. Folha de Desenho A4"));
+            const arqs3 = Array.from(document.getElementById("file_montagem").files).map(f => converterArquivoBase64(f, "3. Montagem do Conjunto"));
+
+            const todosArquivos = await Promise.all([...arqs1, ...arqs2, ...arqs3]);
+            const observacoes = document.getElementById("observacoes_aluno").value.trim();
+
+            // 1. Cria o Pacote Unificado HTML contendo todas as peças embutidas (evita bloqueio de extensões CAD .sldprt/.sldasm)
+            const listaBotoesArquivos = todosArquivos.map(a => `
+                <div style="margin-bottom:10px; padding:12px; background:#F8FAFC; border:1px solid #CBD5E1; border-radius:6px; display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <span style="font-size:12px; font-weight:bold; color:#FF5000; display:block;">${a.categoria}</span>
+                        <strong>📎 ${a.nome}</strong> (${a.tamanhoKB} KB)
+                    </div>
+                    <a href="${a.dataUrl}" download="${a.nome}" style="background:#0047B6; color:#fff; padding:8px 16px; border-radius:5px; text-decoration:none; font-weight:bold;">Baixar Peça / Arquivo</a>
+                </div>
+            `).join("");
+
+            ultimoPacoteHtml = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><title>Entrega SENAI - ${dadosAluno.nome}</title></head>
+<body style="font-family:Arial,sans-serif; background:#F4F6F9; padding:25px; color:#1E293B;">
+    <div style="max-width:760px; margin:0 auto; background:#fff; padding:28px; border-radius:10px; border-top:6px solid #FF5000; box-shadow:0 4px 15px rgba(0,0,0,0.1);">
+        <h2 style="color:#0047B6; margin-top:0;">SENAI SC 2026 — Entrega Oficial de Avaliação Prática de CAD</h2>
+        <p><strong>Professor:</strong> Msc. Marcelo Cevey (marcelo.ozorio@edu.sc.senai.br)</p>
+        <hr style="border:none; border-top:1px solid #E2E8F0; margin:14px 0;">
+        <p><strong>Aluno(a):</strong> ${dadosAluno.nome} | <strong>Turma:</strong> ${dadosAluno.turma}</p>
+        <p><strong>E-mail do Aluno:</strong> ${dadosAluno.email}</p>
+        <p><strong>Início:</strong> ${dadosAluno.inicio} | <strong>Tempo de Prova:</strong> ${dadosAluno.tempo}</p>
+        <p><strong>Observações:</strong> ${observacoes || "Nenhuma"}</p>
+        <h3 style="color:#002B70; margin-top:22px;">Arquivos Anexados pelo Aluno (Clique para salvar):</h3>
+        ${listaBotoesArquivos}
+        <hr style="border:none; border-top:1px solid #E2E8F0; margin:18px 0;">
+        <small style="color:#64748B;">Desenvolvido por Msc. Marcelo Cevey — SENAI / FIESC 2026</small>
+    </div>
+</body>
+</html>`;
+
+            const nomeLimpo = dadosAluno.nome.replace(/[^a-zA-Z0-9]/g, "_");
+            ultimoNomePacote = `AVALIACAO_SENAI_${nomeLimpo}.html`;
+
+            // Injeta o pacote unificado no campo de anexo do formulário via DataTransfer
+            try {
+                const dt = new DataTransfer();
+                const fileObj = new File([ultimoPacoteHtml], ultimoNomePacote, { type: "text/html" });
+                dt.items.add(fileObj);
+                document.getElementById("hidden_unified_package").files = dt.files;
+            } catch (err) {
+                console.warn("DataTransfer aviso:", err);
+            }
+
+            // 2. Dispara notificação paralela via AJAX para os e-mails do professor + cópia ao aluno
+            const nomesAnexosTxt = todosArquivos.map(a => `${a.categoria}: ${a.nome} (${a.tamanhoKB} KB)`).join(" | ");
+            try {
+                fetch("https://formsubmit.co/ajax/marcelo.ozorio@edu.sc.senai.br", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json", "Accept": "application/json" },
+                    body: JSON.stringify({
+                        _subject: `[Avaliação SENAI 2026] ${dadosAluno.nome} (${dadosAluno.turma})`,
+                        _cc: `${dadosAluno.email},marcelocevey@gmail.com`,
+                        _replyto: dadosAluno.email,
+                        Aluno: dadosAluno.nome,
+                        Turma: dadosAluno.turma,
+                        Email_do_Aluno: dadosAluno.email,
+                        Tempo_de_Prova: dadosAluno.tempo,
+                        Arquivos_Entregues: nomesAnexosTxt,
+                        Observacoes: observacoes || "Nenhuma"
+                    })
+                }).catch(() => {});
+            } catch (e) {}
+
+            // 3. Submete o formulário multipart real com anexo para o iframe
+            const formEl = document.getElementById("submission-form");
+            formEl.submit();
+
+            // 4. Salva uma cópia local de segurança do Pacote Unificado e configura botões diretos de e-mail
+            baixarPacoteUnificado();
+
+            const assunto = `[Avaliação SENAI 2026] ${dadosAluno.nome} (${dadosAluno.turma}) - Conjunto de Montar Anéis`;
+            const corpo =
+`ENTREGA DE AVALIAÇÃO PRÁTICA DE CAD — SENAI SC 2026
+------------------------------------------------------------
+Aluno(a): ${dadosAluno.nome}
+Turma: ${dadosAluno.turma}
+E-mail do Aluno: ${dadosAluno.email}
+Início: ${dadosAluno.inicio} | Tempo Total: ${dadosAluno.tempo}
+Observações: ${observacoes || "Nenhuma"}
+
+ARQUIVOS ENTREGUES:
+${todosArquivos.map(a => `- ${a.nome} (${a.tamanhoKB} KB)`).join("\n")}
+
+(Anexe o arquivo "${ultimoNomePacote}" baixado em seu computador ou suas peças diretamente neste e-mail).`;
+
+            const destinatarios = "marcelo.ozorio@edu.sc.senai.br,marcelocevey@gmail.com";
+            const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(destinatarios)}&cc=${encodeURIComponent(dadosAluno.email)}&su=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+            const mailtoUrl = `mailto:${destinatarios}?cc=${encodeURIComponent(dadosAluno.email)}&subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+
+            document.getElementById("btn-gmail-direct").href = gmailUrl;
+            document.getElementById("btn-outlook-direct").href = mailtoUrl;
+
+            document.getElementById("submission-result").style.display = "block";
+            document.getElementById("result-msg").innerHTML = `
+                Os dados e o pacote unificado <strong>${ultimoNomePacote}</strong> (contendo a Bucha 3D, a Folha A4 e a Montagem embutidas) foram processados para <strong>marcelo.ozorio@edu.sc.senai.br</strong> e com cópia para <strong>${dadosAluno.email}</strong>.<br>
+                <em>Caso esteja executando este arquivo localmente sem servidor web (modo <code>file://</code>), clique no botão vermelho do <strong>Gmail Web</strong> ou azul do <strong>Outlook</strong> abaixo para disparar imediatamente a cópia com o arquivo <code>${ultimoNomePacote}</code> que foi salvo na sua pasta Downloads!</em>
+            `;
+
+            btn.innerHTML = "<span>✔ AVALIAÇÃO PROCESSADA E PACOTE GERADO COM SUCESSO!</span>";
+            btn.style.background = "#10B981";
+        }
+
+        function baixarPacoteUnificado() {
+            if (!ultimoPacoteHtml) return;
+            const blob = new Blob([ultimoPacoteHtml], { type: "text/html;charset=utf-8" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = ultimoNomePacote;
+            link.click();
+        }
+    </script>
+</body>
+</html>
